@@ -2,17 +2,17 @@
 """_summary_
 this file to write any business logic for the Market
 """
-
+import os
 import requests
-from market_schema import MarketRequest, MarketResponse, MarketUserResponse
+from resources.market.market_schema import MarketRequest, MarketResponse, MarketPriceResponse
 
 def get_market_data():
 
     url = "https://twelve-data1.p.rapidapi.com/price"
     # todo: set keys as env variable.
     headers = {
-        "X-RapidAPI-Key": "ef06b307c5mshb8a93533838541ep157e8djsn59020e08e0a9",
-        "X-RapidAPI-Host": "twelve-data1.p.rapidapi.com"
+        "X-RapidAPI-Key": str(os.environ.get('RAPID_API_KEY')),
+        "X-RapidAPI-Host": str(os.environ.get('RAPID_API_HOST'))
     }
 
     symbols = ['AAPL','MSFT','GOOG','AMZN','META']
@@ -31,7 +31,7 @@ def get_market_data():
 
             price_data.append({"symbol": symbol, "price": response.price})
 
-            MarketUserResponse(price_list=price_data)
+            MarketPriceResponse(price_list=price_data)
         except ValueError as e:
             print(e.json())
 
