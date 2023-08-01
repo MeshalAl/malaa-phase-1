@@ -6,4 +6,4 @@ from resources.alerts.alert_schema import AlertCreate
 from resources.alerts.alert_dal import create_alert
 
 def create_new_alert( rule: AlertCreate, session ):
-    return create_rule( rule=rule, session=session)
+    return create_alert( rule=rule, session=session)

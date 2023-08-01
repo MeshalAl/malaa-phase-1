@@ -4,6 +4,7 @@
 alerts should have the following properties `name, threshold price, symbol`"""
 
 from db.models.model_base import Base
+from sqlalchemy import Column, Integer, String, Float
 class Alert(Base):
     __tablename__ = "alerts"
     name = Column(String(50), nullable=False)
