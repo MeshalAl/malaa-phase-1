@@ -24,7 +24,9 @@
   "files.trimTrailingWhitespace": true,
   "python.analysis.extraPaths": [
     "../phase_1/investor_bulletin",
-    "../phase_2/investor_bulletin",
-    "../phase_3/investor_bulletin"
   ],
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.autopep8"
+  },
+  "python.formatting.provider": "none",
 }

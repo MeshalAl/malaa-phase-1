@@ -2,8 +2,9 @@
 """_summary_
 this file to write any business logic for the Market
 """
+
 import requests
-import json
+from market_schema import MarketRequest, MarketResponse, MarketUserResponse
 
 def get_market_data():
 
@@ -18,6 +19,7 @@ def get_market_data():
     price_data = []
     for symbol in symbols:
 
+        MarketRequest(symbol=symbol)
         querystring = {"symbol": symbol,"format":"json","outputsize":"30"}
 
         response = requests.get(url, headers=headers, params=querystring)
@@ -25,13 +27,12 @@ def get_market_data():
         assert response.status_code == 200,  f"Request failed with status code {response.status_code}"
 
         try:
-           response_json = response.json()
-           price = response_json.get("price")
-           assert price, "Reponse returned Symbol price at 0."
-            # add validator here, raise on validator error.
+            response = MarketResponse(price=response.json().get("price"))
 
-           price_data.append({"symbol": symbol, "price": price})
-        except json.JSONDecodeError as e:
-            assert False, f"Failed to parse response JSON: {e}"
+            price_data.append({"symbol": symbol, "price": response.price})
+
+            MarketUserResponse(price_list=price_data)
+        except ValueError as e:
+            print(e.json())
 
     return price_data

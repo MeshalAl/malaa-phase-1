@@ -2,6 +2,7 @@
 """_summary_
 this file is to right any ORM logic for the Alert Rule model
 """
+
 from resources.alert_rules.alert_rule_schema import AlertRuleCreate
 from db.models import AlertRule
 
