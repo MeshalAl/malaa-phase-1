@@ -1,9 +1,9 @@
-""" Market Schema """
+""" Market Schema"""
 """_summary_
 This file to abstract any validation logic for the Market
 """
 
-from ast import Dict
+from typing import Dict, List
 from pydantic import BaseModel, validator
 
 class MarketRequest(BaseModel):
@@ -18,5 +18,5 @@ class MarketResponse(BaseModel):
             raise ValueError("Price cannot be 0 or None.")
         return value
 
-class MarketUserResponse(BaseModel):
-    price_list: list[Dict[MarketRequest, MarketResponse]]
+class MarketPriceResponse(BaseModel):
+    price_list: List[Dict[MarketRequest, MarketResponse]]
