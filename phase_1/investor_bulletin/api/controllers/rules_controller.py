@@ -1,24 +1,30 @@
-from fastapi import APIRouter
-from resources.alerts.alert_service import create_new_alert
+from fastapi import APIRouter, Depends
+from requests import Session
+from db.database import get_session
+from resources.alerts.alert_service import get_alerts_service
+from resources.alert_rules.alert_rule_service import create_new_rule_service,  get_alert_rules_service
+from resources.alerts.alert_schema import AlertCreate
+from resources.alert_rules.alert_rule_schema import AlertRuleCreate, AlertRuleUpdate, AlertRuleDelete
 
 router = APIRouter()
 
+
 @router.post('/alert-rules')
-def create_alert_route(name, threshold, symbol):
-    return create_new_alert(name, threshold, symbol)
+def create_alert_rule_route(rule: AlertRuleCreate, session: Session = Depends(get_session)):
+    return create_new_rule_service(rule, session)
 
-@router.patch('/alert-rules/{id}')
-def update_alert_route(id, name, threshold, symbol):
-    return update_alert(id, name, threshold, symbol)
+# @router.patch('/alert-rules/{id}')
+# def update_alert_rule_route(id: int, rule: AlertRuleUpdate):
+#     return update_alert_rule(id, rule, session)
 
-@router.delete('/alert-rules/{id}')
-def delete_alert_route(id):
-    return delete_alert(id)
+# @router.delete('/alert-rules/{id}')
+# def delete_alert_rule_route(id: int):
+#     return delete_alert_rule(id, session)
 
 @router.get('/alert-rules')
-def get_alert_rules_route():
-    return get_alert_rules()
+def get_alert_rules_route(session: Session = Depends(get_session)):
+    return get_alert_rules_service(session)
 
 @router.get('/')
-def get_alerts_route():
-    return get_alerts()
+def get_alerts_route(session: Session = Depends(get_session)):
+    return get_alerts_service(session)
