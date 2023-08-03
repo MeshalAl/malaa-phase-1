@@ -3,9 +3,13 @@
 this file is to right any ORM logic for the Alert model
 """
 from resources.alerts.alert_schema import AlertCreate
-from db.models import Rule
+from db.models import Alert
 
 
-def create_rule( rule: AlertCreate, session ):
-    new_alert = Rule()
+def create_alert( alert: AlertCreate, session ):
+    new_alert = Alert(**alert.model_dump())
     session.add(new_alert)
+    session.commit()
+
+def get_alerts(session):
+    return session.query(Alert).all()

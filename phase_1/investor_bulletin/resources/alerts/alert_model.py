@@ -7,6 +7,7 @@ from db.models.model_base import Base
 from sqlalchemy import Column, Integer, String, Float
 class Alert(Base):
     __tablename__ = "alerts"
-    name = Column(String(50), nullable=False)
-    threshhold_price = Column(Float, nullable=False)
-    symbol = Column(String(50), nullable=False)
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String)
+    threshold_price = Column(Float)
+    symbol = Column(String)
