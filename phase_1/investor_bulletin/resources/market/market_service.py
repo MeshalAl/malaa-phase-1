@@ -4,7 +4,7 @@ this file to write any business logic for the Market
 """
 import os
 import requests
-from resources.market.market_schema import MarketRequest, MarketResponse, MarketPriceResponse
+from resources.market.market_schema import MarketRequest, MarketResponse, symbol_price_pair, MarketPriceResponse
 
 def get_market_data():
 
@@ -19,20 +19,19 @@ def get_market_data():
     price_data = []
     for symbol in symbols:
 
-        MarketRequest(symbol=symbol)
         querystring = {"symbol": symbol,"format":"json","outputsize":"30"}
 
         response = requests.get(url, headers=headers, params=querystring)
-
         assert response.status_code == 200,  f"Request failed with status code {response.status_code}"
 
         try:
+            request = MarketRequest(symbol=symbol)
             response = MarketResponse(price=response.json().get("price"))
+            price_pair = symbol_price_pair(symbol=request.symbol, price=response.price)
 
-            price_data.append({"symbol": symbol, "price": response.price})
+            price_data.append(price_pair.model_dump())
 
-            MarketPriceResponse(price_list=price_data)
         except ValueError as e:
             print(e.json())
 
-    return price_data
+    return {'price_list': price_data}
