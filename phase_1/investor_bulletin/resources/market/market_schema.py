@@ -3,7 +3,8 @@
 This file to abstract any validation logic for the Market
 """
 
-from typing import Dict, List
+
+from typing import List
 from pydantic import BaseModel, validator
 
 class MarketRequest(BaseModel):
@@ -18,5 +19,8 @@ class MarketResponse(BaseModel):
             raise ValueError("Price cannot be 0 or None.")
         return value
 
+class symbol_price_pair(BaseModel):
+    symbol: str
+    price: float
 class MarketPriceResponse(BaseModel):
-    price_list: List[Dict[MarketRequest, MarketResponse]]
+    price_list: List[symbol_price_pair]
