@@ -22,6 +22,9 @@ def seed_alerts(num_alerts):
     }
     for data in payload:
         response = requests.request("POST", url, headers=headers, json=data)
-        print(response.text)
+        if response.status_code != 200:
+            print('Not able to create alert, check if API is running')
+            break
+        print('seeded alert: ', data)
 
 seed_alerts(10)
