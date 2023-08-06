@@ -9,7 +9,6 @@ from db.models import Alert
 def create_alert( alert: AlertCreate, session ):
     new_alert = Alert(**alert.model_dump())
     session.add(new_alert)
-    session.commit()
 
 def get_alerts(session):
     return session.query(Alert).all()
